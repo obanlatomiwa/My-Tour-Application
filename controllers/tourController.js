@@ -12,11 +12,11 @@ exports.checkID = (req, res, next, val) => {
 };
 
 exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price){
-    return res.status(404).json({status: 'error', message: 'Missing name or price'})
+  if (!req.body.name || !req.body.price) {
+    return res.status(404).json({ status: 'error', message: 'Missing name or price' });
   }
   next();
-}
+};
 
 // route handlers for tours
 exports.getTours = (req, res) => {
@@ -48,15 +48,14 @@ exports.postTour = (req, res) => {
   const newID = tours[tours.length].id + 1;
   const newTour = Object.assign({ id: newID }, req.body);
   tours.push(newTour);
-  fs.writeFile(`${__dirname}/../dev-data/data/tours-simple.json`, JSON.stringify(tours), err => {
+  fs.writeFile(`${__dirname}/../dev-data/data/tours-simple.json`, JSON.stringify(tours), (err) => {
     res.status(201).json({
       status: 'success',
       data: {
-        tour: newTour
+        tour: newTour,
       },
     });
-  })
-  
+  });
 };
 
 exports.patchTour = (req, res) => {
