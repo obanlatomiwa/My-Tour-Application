@@ -17,7 +17,6 @@ mongoose
     console.log('db connected');
   });
 
-
 //listening to server
 const port = process.env.PORT || 8000;
 
