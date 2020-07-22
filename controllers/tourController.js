@@ -1,46 +1,60 @@
 const Tour = require('../models/tourModel');
 
-exports.checkBody = (req, res, next) => {
-  if (!req.body.name || !req.body.price) {
-    return res.status(404).json({ status: 'error', message: 'Missing name or price' });
-  }
-  next();
-};
-
 // route handlers for tours
-exports.getTours = (req, res) => {
-  res.status(200).json({
-    status: 'success',
-    // results: tours.length,
-    // data: {
-    //   tours,
-    // },
-  });
+exports.getTours = async (req, res) => {
+  try {
+    const tours = await Tour.find();
+    res.status(200).json({
+      status: 'success',
+      results: tours.length,
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'failed',
+      message: err,
+    });
+  }
 };
 
-exports.getTour = (req, res) => {
-  // get id from url
-  // a trick to convert string to integer
-  // id = req.params.id * 1;
-  // const tour = tours.find((el) => el.id === id);
-  // res.status(200).json({
-  //   status: 'success',
-  //   data: {
-  //     tour,
-  //   },
-  // });
+exports.getTour = async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
+    // cosnt tour = await TOur.findOne({_id: req.params.id})  ---- an alternative way
+    res.status(200).json({
+      status: 'success',
+      data: {
+        tour,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'failed',
+      message: err,
+    });
+  }
 };
 
-exports.postTour = (req, res) => {
-  // res.status(201).json({
-  //   status: 'success',
-  //   data: {
-  //     tour: newTour,
-  //   },
-  // });
+exports.createTour = async (req, res) => {
+  try {
+    const newTour = await Tour.create(req.body);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        tour: newTour,
+      },
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: 'failed',
+      message: err,
+    });
+  }
 };
 
-exports.patchTour = (req, res) => {
+exports.updateTour = (req, res) => {
   // get id from url
   res.status(201).json({
     status: 'success',
