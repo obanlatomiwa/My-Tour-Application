@@ -14,12 +14,27 @@ exports.getTours = async (req, res) => {
     //   .equals(5);
 
     // build query
+    // 1) filtering
+
     // eslint-disable-next-line node/no-unsupported-features/es-syntax
     const queryObj = { ...req.query };
     const excludeFields = ['sort', 'page', 'limit', 'fields'];
     excludeFields.forEach((el) => delete queryObj[el]);
-    const query = Tour.find(queryObj);
 
+    // 2) advanced filtering
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(lt|gt|lte|gte)\b/g, (match) => `$${match}`);
+
+    let query = Tour.find(JSON.parse(queryStr));
+
+    // 3) Sorting
+    if (req.query.sort) {
+      const sortBy = req.query.sort.split(',').join(' ');
+      query = query.sort(sortBy);
+    } else {
+      query = query.sort('-createdAt');
+    }
     // execute query
     const tours = await query;
 
