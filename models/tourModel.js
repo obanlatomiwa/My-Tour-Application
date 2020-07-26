@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+const validator = require('validator');
 
 const tourSchema = new mongoose.Schema(
   {
@@ -8,6 +9,9 @@ const tourSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       required: [true, 'name is required'],
+      maxlength: [40, 'tour name must not exceed 40 characters '],
+      minlength: [10, 'tour name must have at least  10 characters '],
+      // validate: [validator.isAlpha, 'Tour name must only contain characters'],
     },
     slug: String,
     duration: {
@@ -21,10 +25,16 @@ const tourSchema = new mongoose.Schema(
     difficulty: {
       type: String,
       required: [true, 'difficulty required'],
+      enum: {
+        values: ['easy', 'medium', 'difficult'],
+        message: 'Difficulty is either- easy, medium or difficult',
+      },
     },
     ratingsAverage: {
       type: Number,
       default: 4.5,
+      min: [1, 'Ratings must be above 1.0'],
+      max: [5, 'Ratings must be below 5.0'],
     },
     ratingsQuantity: {
       type: Number,
@@ -34,7 +44,17 @@ const tourSchema = new mongoose.Schema(
       type: Number,
       required: [true, 'price is required'],
     },
-    priceDiscount: Number,
+    priceDiscount: {
+      type: Number,
+      validate: {
+        validator: function (val) {
+          // this points only to the current document upon creation
+          return val < this.price;
+        },
+        message:
+          'the price discount ({VALUE}) cannot be greater than the price',
+      },
+    },
     summary: {
       type: String,
       trim: true,
@@ -66,7 +86,7 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
-// Document Middleware
+// Document Middleware only works for .save() and .create() only
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
