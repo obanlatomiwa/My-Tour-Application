@@ -73,9 +73,21 @@ tourSchema.pre('save', function (next) {
 });
 
 // Query Middleware
-tourSchema.pre('find', function(next){
-  next()
-})
+// tourSchema.pre('find', function (next) {
+tourSchema.pre(/^find/, function (next) {
+  this.find({ secretTour: { $ne: true } });
+  next();
+});
+
+tourSchema.post(/^find/, function (docs, next) {
+  next();
+});
+
+// Aggregate Middleware
+tourSchema.pre('aggregate', function (next) {
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  next();
+});
 
 // virtual properties
 tourSchema.virtual('durationWeeks').get(function () {
