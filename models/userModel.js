@@ -14,6 +14,12 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
     validate: [validator.isEmail, 'Please enter a valid email address!'],
   },
+  photo: String,
+  role: {
+    type: String,
+    enum: ['user', 'guide', 'lead-guide', 'admin'],
+    default: 'user',
+  },
   password: {
     type: String,
     required: [true, 'Please provide a password'],
@@ -32,7 +38,6 @@ const userSchema = new mongoose.Schema({
     },
   },
   passwordChangedAt: Date,
-  photo: String,
 });
 
 // password encrytion middleware

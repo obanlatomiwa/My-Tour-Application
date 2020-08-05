@@ -18,6 +18,7 @@ exports.signup = catchAsyncError(async (req, res, next) => {
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
     passwordChangedAt: req.body.passwordChangedAt,
+    role: req.body.role,
   });
 
   // token
@@ -76,21 +77,24 @@ exports.protectRoute = catchAsyncError(async (req, res, next) => {
   }
   // verify token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  console.log(decoded);
 
   // check if user still exists
-  const freshUser = await User.findById(decoded.id);
-  if (!freshUser) {
+  const currentUser = await User.findById(decoded.id);
+  if (!currentUser) {
     next(new AppError('The user with this token no longer exist', 401));
   }
 
   // check if user changed password after token was issued
-  if (freshUser.changePasswordAfter(decoded.iat)) {
-    return next(
-      new AppError('User recently changed password! Please log in again', 401)
-    );
-  }
+  //   if (currentUser.changePasswordAfter(decoded.iat)) {
+  //     return next(
+  //       new AppError('User recently changed password! Please log in again', 401)
+  //     );
+  //   }
 
   // grant access to protected route
-  req.user = freshUser; 
+  req.user = currentUser;
   next();
 });
+
+// authorization
