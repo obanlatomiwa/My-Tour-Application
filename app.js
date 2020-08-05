@@ -1,7 +1,7 @@
 // main express application
 
 // core modules
-const fs = require('fs');
+// const fs = require('fs');
 
 // 3rd-party modules
 const express = require('express');
