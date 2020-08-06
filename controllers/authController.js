@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const catchAsyncError = require('../utils/catchAsyncError');
 const AppError = require('../utils/appError');
+const sendEmail = require('../utils/email');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -86,11 +87,11 @@ exports.protectRoute = catchAsyncError(async (req, res, next) => {
   }
 
   // check if user changed password after token was issued
-  //   if (currentUser.changePasswordAfter(decoded.iat)) {
-  //     return next(
-  //       new AppError('User recently changed password! Please log in again', 401)
-  //     );
-  //   }
+//   if (currentUser.changePasswordAfter(decoded.iat)) {
+//     return next(
+//       new AppError('User recently changed password! Please log in again', 401)
+//     );
+//   }
 
   // grant access to protected route
   req.user = currentUser;
@@ -124,7 +125,34 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // send it to user email
-  next();
+  const resetURL = `${req.protocol}://${req.get(
+    'host'
+  )}/api/v1/users/resetPassword/${resetToken}`;
+
+  const message = `Forgot your password? Submit your new password to: ${resetURL}.\n If you didn't make this request, Please ignore thiss email!`;
+  try {
+    await sendEmail({
+      email: user.email,
+      subject: "Your rest password token (It's only valid for 10 minutes )",
+      message,
+    });
+
+    res.status(200).json({
+      status: 'success',
+      message: 'Token sent to recipient email',
+    });
+  } catch (err) {
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save({ validateBeforeSave: false });
+
+    return next(
+      new AppError(
+        'There was an error trying to send the password reset token email, Please try again later',
+        500
+      )
+    );
+  }
 });
 
 // reset password

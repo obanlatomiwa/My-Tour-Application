@@ -78,7 +78,7 @@ userSchema.methods.changePasswordAfter = async function (JWTTimestamp) {
 };
 
 // password reset token
-userSchema.methods.createPasswordResetToken = async function () {
+userSchema.methods.createPasswordResetToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
   this.passwordResetToken = crypto
     .createHash('sha256')
