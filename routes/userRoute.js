@@ -10,6 +10,8 @@ const router = express.Router();
 // authetication route
 router.post('/signup', authController.signup);
 router.post('/login', authController.login);
+router.post('/forgotPassword', authController.forgotPassword);
+router.post('/resetPassword', authController.resetPassword);
 
 // other routes
 router.route('/').get(userController.getUsers).post(userController.postUser);

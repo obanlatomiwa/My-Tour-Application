@@ -94,7 +94,38 @@ exports.protectRoute = catchAsyncError(async (req, res, next) => {
 
   // grant access to protected route
   req.user = currentUser;
+  //   console.log(req.user);
   next();
 });
 
 // authorization
+exports.restrictTo = (...roles) => {
+  // roles = ['admin', 'lead-guide']
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403)
+      );
+    }
+    next();
+  };
+};
+
+// forgot password
+exports.forgotPassword = catchAsyncError(async (req, res, next) => {
+  // get user based on post request email
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new AppError('There is no user with such email address', 404));
+  }
+
+  // generate random reset token
+  const resetToken = user.createPasswordResetToken();
+  await user.save({ validateBeforeSave: false });
+
+  // send it to user email
+  next();
+});
+
+// reset password
+exports.resetPassword = (req, res, next) => {};
