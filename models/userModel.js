@@ -43,6 +43,7 @@ const userSchema = new mongoose.Schema({
   passwordResetExpires: Date,
 });
 
+// middlewares
 // password encrytion middleware
 userSchema.pre('save', async function (next) {
   // check if the password was modified/created to avoid multiple hashing
@@ -56,6 +57,12 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
+  this.passwordChangedAt = Date.now() - 1000 ;
+  next();
+});
+
 // decrypt password
 userSchema.methods.correctPassword = async function (
   candidatePassword,
@@ -65,7 +72,7 @@ userSchema.methods.correctPassword = async function (
 };
 
 // check if password was changed
-userSchema.methods.changePasswordAfter = async function (JWTTimestamp) {
+userSchema.methods.changePasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimeStamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,
