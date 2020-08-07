@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
+const { updatePassword } = require('../controllers/authController');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -41,6 +42,11 @@ const userSchema = new mongoose.Schema({
   passwordChangedAt: Date,
   passwordResetToken: String,
   passwordResetExpires: Date,
+  active: {
+    type: Boolean,
+    default: true,
+    select: false,
+  },
 });
 
 // middlewares
@@ -63,6 +69,12 @@ userSchema.pre('save', function (next) {
   next();
 });
 
+// middleware to update queries to implement inactive/deleted users
+userSchema.pre(/^find/, function (next) {
+  // points to current query
+  this.find({ active: { $ne: false } });
+  next();
+});
 // decrypt password
 userSchema.methods.correctPassword = async function (
   candidatePassword,
