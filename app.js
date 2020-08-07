@@ -6,6 +6,7 @@
 // 3rd-party modules
 const express = require('express');
 const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
 
 // my modules
 const AppError = require('./utils/appError');
@@ -16,10 +17,18 @@ const userRouter = require('./routes/userRoute');
 // setting up express app
 const app = express();
 
-// MIDDLEWARE
+// GLOBAL MIDDLEWARE
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
+
+// rate limiter
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 100,
+  message: 'Too many requests, please try again in an hour',
+});
+app.use('/api', limiter);
 
 // app middleware
 app.use(express.json());
