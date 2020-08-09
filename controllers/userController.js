@@ -25,6 +25,11 @@ exports.postUser = (req, res) => {
   });
 };
 
+exports.getMe = (req, res, next) => {
+  req.params.id = req.user.id;
+  next();
+};
+
 exports.updateMe = catchAsyncError(async (req, res, next) => {
   // disaallow POST requests for password or passwordConfirm data
   if (req.body.password || req.body.passwordConfirm) {
