@@ -3,7 +3,7 @@ const reviewController = require('../controllers/reviewController');
 const authController = require('../controllers/authController');
 
 // tours routes
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
@@ -21,5 +21,3 @@ router
 //   .delete(authController.protectRoute, reviewController.deleteReview);
 
 module.exports = router;
-
-

@@ -33,8 +33,8 @@ exports.getTours = catchAsyncError(async (req, res, next) => {
 });
 
 exports.getTour = catchAsyncError(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id);
-  // cosnt tour = await TOur.findOne({_id: req.params.id})  ---- an alternative way
+  const tour = await Tour.findById(req.params.id).populate('reviews');
+  // cosnt tour = await Tour.findOne({_id: req.params.id})  ---- an alternative way
 
   if (!tour) {
     return next(new AppError(`This tour can't be found`, 404));
