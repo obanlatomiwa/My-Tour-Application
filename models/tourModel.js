@@ -112,6 +112,18 @@ const tourSchema = new mongoose.Schema(
   }
 );
 
+// virtual properties
+tourSchema.virtual('durationWeeks').get(function () {
+  return this.duration / 7;
+});
+
+// virtual populate
+tourSchema.virtual('reviews', {
+  ref: 'Review',
+  foreignField: 'tour',
+  localField: '_id',
+});
+
 // Document Middleware only works for .save() and .create() only
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
@@ -142,20 +154,16 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-tourSchema.post(/^find/, function (docs, next) {
-  next();
-});
-
 // Aggregate Middleware
 tourSchema.pre('aggregate', function (next) {
   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   next();
 });
 
-// virtual properties
-tourSchema.virtual('durationWeeks').get(function () {
-  return this.duration / 7;
+tourSchema.post(/^find/, function (docs, next) {
+  next();
 });
+
 const Tour = mongoose.model('Tour', tourSchema);
 
 module.exports = Tour;
