@@ -184,7 +184,7 @@ exports.resetPassword = catchAsyncError(async (req, res, next) => {
     passwordResetToken: hashedToken,
     passwordResetExpires: { $gt: Date.now() },
   });
-  // set new token only if token as not expired and there is a user, then set new password
+  // set new token only if token has not expired and there is a user, then set new password
   if (!user) {
     next(new AppError('Token is invalid or has expired', 400));
   }

@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const catchAsyncError = require('../utils/catchAsyncError');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 // helper functions
 const filterObj = (obj, ...allowedFields) => {
@@ -11,18 +12,18 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
-exports.getUsers = catchAsyncError(async (req, res, next) => {
-  const users = await User.find();
+exports.getUsers = factory.getAll(User);
+exports.getUser = factory.getOne(User);
+// do not update passwords with this!!!
+exports.patchUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
 
-  // send response
-  res.status(200).json({
+exports.postUser = (req, res) => {
+  res.status(500).json({
     status: 'success',
-    results: users.length,
-    data: {
-      users,
-    },
+    message: 'not defined, please use /signup instead',
   });
-});
+};
 
 exports.updateMe = catchAsyncError(async (req, res, next) => {
   // disaallow POST requests for password or passwordConfirm data
@@ -54,30 +55,10 @@ exports.deleteMe = catchAsyncError(async (req, res, next) => {
     data: null,
   });
 });
-exports.getUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'not defined',
-  });
-};
 
-exports.postUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'not defined',
-  });
-};
-
-exports.patchUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'not defined',
-  });
-};
-
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'success',
-    message: 'not defined',
-  });
-};
+// exports.deleteUser = (req, res) => {
+//   res.status(500).json({
+//     status: 'success',
+//     message: 'not defined',
+//   });
+// };
