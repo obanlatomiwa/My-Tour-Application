@@ -121,7 +121,7 @@ exports.getToursWithin = catchAsyncError(async (req, res, next) => {
 exports.getDistances = catchAsyncError(async (req, res, next) => {
   const { latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
-
+  const multiplier = unit === 'mi' ? 0.000621371 : 0.001;
   if (!lat || !lng) {
     next(
       new AppError(
@@ -139,6 +139,13 @@ exports.getDistances = catchAsyncError(async (req, res, next) => {
           coordinates: [lng * 1, lat * 1],
         },
         distanceField: 'distance',
+        distanceMultiplier: multiplier,
+      },
+    },
+    {
+      $project: {
+        name: 1,
+        distance: 1,
       },
     },
   ]);
