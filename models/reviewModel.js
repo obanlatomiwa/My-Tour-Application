@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const slugify = require('slugify');
-
+const Tour = require('./tourModel');
 const reviewSchema = new mongoose.Schema(
   {
     review: {
@@ -40,7 +39,7 @@ reviewSchema.pre(/^find/, function (next) {
   //   select: 'name photo',
   // }).populate({
   //   path: 'tour',
-  //   select: 'name', 
+  //   select: 'name',
   // });
 
   this.populate({
@@ -49,5 +48,47 @@ reviewSchema.pre(/^find/, function (next) {
   });
   next();
 });
+
+// statics function to calculate average ratings
+reviewSchema.statics.calcAverageRatings = async function (tourId) {
+  const stats = await this.aggregate([
+    {
+      $match: { tour: tourId },
+    },
+    {
+      $group: {
+        _id: '$tour',
+        numRatings: { $sum: 1 },
+        avgRating: { $avg: '$rating' },
+      },
+    },
+  ]);
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: stats[0].avgRating,
+      ratingsAverage: stats[0].numRatings,
+    });
+  } else {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5,
+    });
+  }
+};
+
+reviewSchema.post('save', function () {
+  // this point to the current review
+  this.constructor.calcAverageRatings(this.tour);
+});
+
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.rev = await this.findOne();
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  await this.rev.constructor.calcAverageRatings(this.rev.tour);
+});
+
 const Review = mongoose.model('Review', reviewSchema);
 module.exports = Review;
