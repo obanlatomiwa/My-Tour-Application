@@ -5,6 +5,7 @@
 
 // 3rd-party modules
 const express = require('express');
+const path = require('path');
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -21,6 +22,13 @@ const reviewRouter = require('./routes/reviewRoute');
 
 // setting up express app
 const app = express();
+
+// setting up pug in express
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// serving static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // GLOBAL MIDDLEWARE
 // set security http headers
@@ -62,9 +70,6 @@ app.use(
     ],
   })
 );
-
-// serving static files
-app.use(express.static(`${__dirname}/public`));
 
 // test middlewares
 app.use((req, res, next) => {
