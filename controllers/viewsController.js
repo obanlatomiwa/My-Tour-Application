@@ -13,8 +13,17 @@ exports.getOverview = catchAsyncError(async (req, res) => {
   });
 });
 
-exports.getTour = (req, res) => {
-  res.status(200).render('tour', {
-    title: 'olumo rock',
+exports.getTour = catchAsyncError(async (req, res) => {
+  // get tour details data from db
+  const tour = await Tour.findOne({ slug: req.params.slug }).populate({
+    path: 'reviews',
+    fields: 'review, rating user',
   });
-};
+  // build template
+
+  // render template
+  res.status(200).render('tour', {
+    title: tour.name,
+    tour,
+  });
+});
