@@ -23,7 +23,7 @@ exports.getTour = catchAsyncError(async (req, res) => {
 
   // render template
   res.status(200).render('tour', {
-    title: tour.name,
+    title: `${tour.name} Tour`,
     tour,
   });
 });

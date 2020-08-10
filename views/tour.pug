@@ -2,6 +2,12 @@ extends base
 
 include _mixins
 
+block append head
+    <meta http-equiv="Content-Security-Policy" content="worker-src blob: ; child-src blob: ; img-src data: blob: 'self' ; script-src 'self' https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js 'unsafe-eval'; connect-src https://*.tiles.mapbox.com https://api.mapbox.com">
+    script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js')
+    link(href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet')
+    //- type="application/json"
+
 block content
     section.section-header
         .header__hero
@@ -56,7 +62,7 @@ block content
                 img.picture-box__img(src=`/img/tours/${image}`, alt=`${tour.name} ${index + 1} Tour `, class=`picture-box__img--${index + 1}`)
 
     section.section-map
-        #map
+        #map(data-locations=`${JSON.stringify(tour.locations)}`)
 
     section.section-reviews
         .reviews
