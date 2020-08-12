@@ -3,7 +3,9 @@ extends base
 include _mixins
 
 block append head
-    <meta http-equiv="Content-Security-Policy" content="worker-src blob: ; child-src blob: ; img-src data: blob: 'self' ; script-src 'self' https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js 'unsafe-eval'; connect-src https://*.tiles.mapbox.com https://api.mapbox.com">
+    //- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *;**script-src 'self' http://onlineerp.solution.quebec 'unsafe-inline' 'unsafe-eval';** ">
+    //- <meta http-equiv="Content-Security-Policy" content="worker-src blob: ; child-src blob: ; img-src data: blob: 'self' ; script-src 'self' https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js 'unsafe-eval'; connect-src https://*.tiles.mapbox.com https://api.mapbox.com">
+    //- script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl-csp.js')
     script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js')
     link(href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet')
     //- type="application/json"

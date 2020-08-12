@@ -1,5 +1,4 @@
 const Tour = require('../models/tourModel');
-const authentication = require('./authController');
 const catchAsyncError = require('../utils/catchAsyncError');
 const AppError = require('../utils/appError');
 
@@ -20,6 +19,10 @@ exports.getTour = catchAsyncError(async (req, res, next) => {
     path: 'reviews',
     fields: 'review, rating user',
   });
+
+  if (!tour) {
+    return next(new AppError('There is no tour with that name.', 404));
+  }
   // build template
 
   // render template
@@ -34,4 +37,3 @@ exports.getLoginForm = (req, res) => {
     title: 'Log into your account',
   });
 };
-
