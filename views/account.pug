@@ -34,10 +34,10 @@ block content
                     form.form.form-user-data
                         .form__group
                             label.form__label(for='name') Name
-                            input#name.form__input(type='text', value=`${user.name}`, required)
+                            input#name.form__input(type='text', value=`${user.name}`, required, name='name')
                         .form__group.ma-bt-md
                             label.form__label(for='email') Email address
-                            input#email.form__input(type='email', value=`${user.email}`, required)
+                            input#email.form__input(type='email', value=`${user.email}`, required, name='email')
                         .form__group.form__photo-upload
                             img.form__user-photo(src=`/img/users/${user.photo}`, alt=`Photo of ${user.name}`)
                             a.btn-text(href='') Choose new photo
@@ -49,12 +49,12 @@ block content
                     form.form.form-user-settings
                         .form__group
                             label.form__label(for='password-current') Current password
-                            input#password-current.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                            input#password-current.form__input(type='password', placeholder='••••••••', required, minlength='8', name='passwordCurrent')
                         .form__group
                             label.form__label(for='password') New password
-                            input#password.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                            input#password.form__input(type='password', placeholder='••••••••', required, minlength='8', name='password')
                         .form__group.ma-bt-lg
                             label.form__label(for='password-confirm') Confirm password
-                            input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
+                            input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8', name='passwordConfirm')
                         .form__group.right
                             button.btn.btn--small.btn--green Save password
