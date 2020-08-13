@@ -10,7 +10,7 @@ const mapBox = document.getElementById('map');
 const loginForm = document.querySelector('.form--login');
 const logOutButton = document.querySelector('.nav__el--logout');
 const updateUserDataForm = document.querySelector('.form-user-data');
-const updateUserPassword = document.querySelector('.form-user-settings');
+const updateUserPasswordForm = document.querySelector('.form-user-password');
 
 if (mapBox) {
   const locations = JSON.parse(mapBox.dataset.locations);
@@ -37,11 +37,22 @@ if (updateUserDataForm)
     updateSettings({ name, email }, 'data');
   });
 
-  if (updateUserPassword)
-  updateUserDataForm.addEventListener('submit', (e) => {
+if (updateUserPasswordForm)
+  updateUserPasswordForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const passwordCurrent = document.getElementById('name').value;
-    const password = document.getElementById('name').value;
-    const passwordConfirm = document.getElementById('email').value;
-    updateSettings({ passwordCurrent, password, passwordConfirm }, 'password');
+    document.querySelector('.btn-save-password').textContent = 'Updating ...';
+    const passwordCurrent = document.getElementById('password-current').value;
+    const password = document.getElementById('password').value;
+    const passwordConfirm = document.getElementById('password-confirm').value;
+    await updateSettings(
+      { passwordCurrent, password, passwordConfirm },
+      'password'
+    );
+
+    document.getElementById('password-current').value = '';
+    document.getElementById('password').value = '';
+    document.getElementById('password-confirm').value = '';
+    document.querySelector('.btn-save-password').textContent =
+      'Done...';
   });
+
