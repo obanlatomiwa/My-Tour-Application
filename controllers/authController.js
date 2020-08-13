@@ -27,7 +27,7 @@ const createSendToken = (user, statusCode, res) => {
 
   if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
-  res.cookie('jwt-token', token, cookieOptions);
+  res.cookie('jwt', token, cookieOptions);
 
   // remove password from the output
   user.password = undefined;
@@ -79,11 +79,11 @@ exports.login = catchAsyncError(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
-  res.cookie('jwt-token', 'loggedout', {
+  res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now(10 * 1000)),
     httpOnly: true,
   });
-  res.status(200).json('success');
+  res.status(200).json({ status: 'success' });
 };
 
 // protect routes---Implementing access to some routes for only autheticated users
@@ -122,7 +122,8 @@ exports.protectRoute = catchAsyncError(async (req, res, next) => {
 
   // grant access to protected route
   req.user = currentUser;
-  //   console.log(req.user);
+  res.locals.user = currentUser;
+
   next();
 });
 
@@ -138,10 +139,10 @@ exports.isLoggedIn = async (req, res, next) => {
 
       // check if user still exists
       const currentUser = await User.findById(decoded.id);
+
       if (!currentUser) {
         return next();
       }
-
       // check if user changed password after token was issued
       if (currentUser.changePasswordAfter(decoded.iat)) {
         return next();

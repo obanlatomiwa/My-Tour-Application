@@ -16,3 +16,11 @@ mixin reviewBox(review)
             each star in [1,2,3,4,5]
                 svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
                     use(xlink:href='/img/icons.svg#icon-star')
+
+
+mixin navItem(link, text, icon, active)
+li(class=`${active ? 'side-nav--active' : ''}`)
+    a(href=`${link}`)
+        svg
+            use(xlink:href=`img/icons.svg#icon-${icon}`)
+        |   #{text}

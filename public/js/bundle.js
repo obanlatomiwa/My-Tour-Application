@@ -8449,7 +8449,6 @@ var login = /*#__PURE__*/function () {
 
           case 3:
             result = _context.sent;
-            console.log(result);
 
             if (result.data.status === 'success') {
               (0, _alert.showAlert)('success', 'You are now logged in!');
@@ -8458,20 +8457,20 @@ var login = /*#__PURE__*/function () {
               }, 1500);
             }
 
-            _context.next = 11;
+            _context.next = 10;
             break;
 
-          case 8:
-            _context.prev = 8;
+          case 7:
+            _context.prev = 7;
             _context.t0 = _context["catch"](0);
             (0, _alert.showAlert)('error', _context.t0.response.data.message);
 
-          case 11:
+          case 10:
           case "end":
             return _context.stop();
         }
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
 
   return function login(_x, _x2) {
@@ -8787,7 +8786,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 //DOM
 var mapBox = document.getElementById('map');
-var loginForm = document.querySelector('.form');
+var loginForm = document.querySelector('.form--login');
 var logOutButton = document.querySelector('.nav__el--logout');
 
 if (mapBox) {
