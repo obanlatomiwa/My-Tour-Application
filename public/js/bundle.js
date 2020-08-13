@@ -8440,7 +8440,8 @@ var login = /*#__PURE__*/function () {
             _context.next = 3;
             return (0, _axios.default)({
               method: 'POST',
-              url: 'http://127.0.0.1:8000/api/v1/users/login',
+              // url: 'http://127.0.0.1:8000/api/v1/users/login',
+              url: '/api/v1/users/login',
               data: {
                 email: email,
                 password: password
@@ -8550,7 +8551,8 @@ var updateSettings = /*#__PURE__*/function () {
             _context.next = 4;
             return (0, _axios.default)({
               method: 'PATCH',
-              url: "http://127.0.0.1:8000/api/v1/users/".concat(url),
+              url: "/api/v1/users/".concat(url),
+              // url: `http://127.0.0.1:8000/api/v1/users/${url}`,
               data: data
             });
 

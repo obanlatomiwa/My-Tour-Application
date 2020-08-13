@@ -7,7 +7,8 @@ export const updateSettings = async (data, type) => {
   try {
     const result = await axios({
       method: 'PATCH',
-      url: `http://127.0.0.1:8000/api/v1/users/${url}`,
+      url: `/api/v1/users/${url}`,
+      // url: `http://127.0.0.1:8000/api/v1/users/${url}`,
       data,
     });
     if (result.data.status === 'success') {
