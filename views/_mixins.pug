@@ -19,8 +19,8 @@ mixin reviewBox(review)
 
 
 mixin navItem(link, text, icon, active)
-li(class=`${active ? 'side-nav--active' : ''}`)
-    a(href=`${link}`)
-        svg
-            use(xlink:href=`img/icons.svg#icon-${icon}`)
-        |   #{text}
+    li(class=`${active ? 'side-nav--active' : ''}`)
+        a(href=`${link}`)
+            svg
+                use(xlink:href=`img/icons.svg#icon-${icon}`)
+            |   #{text}
