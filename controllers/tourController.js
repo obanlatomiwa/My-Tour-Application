@@ -1,8 +1,63 @@
-// const { Query } = require('mongoose');
+const multer = require('multer');
+const sharp = require('sharp');
 const Tour = require('../models/tourModel');
 const catchAsyncError = require('../utils/catchAsyncError');
 const factory = require('./handlerFactory');
 const AppError = require('../utils/appError');
+
+//file upload
+// using a buffer
+const multerStorage = multer.memoryStorage();
+
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true);
+  } else {
+    cb(new AppError('Please upload only images', 404), false);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadTourImages = upload.fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]);
+
+// upload.single('image') for single a image and produce req.file
+// upload.array('images', 5) for multiple images and a single field and produce req.files
+// upload.fields([]) for multiple images and a multiple fields and produce req.files
+
+exports.resizeTourImages = catchAsyncError(async (req, res, next) => {
+  if (!req.files.imageCover || !req.files.images) return next();
+
+  //  processing tour image cover
+  req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+  await sharp(req.files.imageCover[0].buffer)
+    .resize(2000, 1333)
+    .toFormat('jpeg')
+    .jpeg({ quality: 90 })
+    .toFile(`public/img/tours/${req.body.imageCover}`);
+
+  //  processing tour images
+  req.body.images = [];
+  await Promise.all(
+    req.files.images.map(async (file, index) => {
+      const filename = `tour-${req.params.id}-${Date.now()}-${index + 1}.jpeg`;
+      await sharp(file.buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({ quality: 90 })
+        .toFile(`public/img/tours/${filename}`);
+
+      req.body.images.push(filename);
+    })
+  );
+  next();
+});
 
 // top tours
 exports.aliasTopTours = (req, res, next) => {
