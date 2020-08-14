@@ -1,5 +1,4 @@
 const express = require('express');
-
 // route handlers for users
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -19,7 +18,12 @@ router.use(authController.protectRoute);
 
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
-router.patch('/updateMe', userController.updateMe);
+router.patch(
+  '/updateMe',
+  userController.uploadUserPhoto,
+  userController.resizeUserphoto,
+  userController.updateMe
+);
 router.delete('/deleteMe', userController.deleteMe);
 
 // only admins can get access to this route

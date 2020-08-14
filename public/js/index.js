@@ -32,9 +32,11 @@ if (logOutButton) logOutButton.addEventListener('click', logout);
 if (updateUserDataForm)
   updateUserDataForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    updateSettings({ name, email }, 'data');
+    const form = new FormData();
+    form.append('name', document.getElementById('name').value);
+    form.append('email', document.getElementById('email').value);
+    form.append('photo', document.getElementById('photo').files[0]);
+    updateSettings(form, 'data');
   });
 
 if (updateUserPasswordForm)
@@ -52,7 +54,5 @@ if (updateUserPasswordForm)
     document.getElementById('password-current').value = '';
     document.getElementById('password').value = '';
     document.getElementById('password-confirm').value = '';
-    document.querySelector('.btn-save-password').textContent =
-      'Done...';
+    document.querySelector('.btn-save-password').textContent = 'Done...';
   });
-

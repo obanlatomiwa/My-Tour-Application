@@ -4,9 +4,8 @@
   "description": "A Node.js, Express and MongoDB Project",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
-    "build:prod": "NODE_ENV=production node server.js",
+    "start": "nodemon server.js",
+    "build": "NODE_ENV=production nodemon server.js",
     "debug": "ndb server.js",
     "watch": "parcel watch ./public/js/index.js --out-dir ./public/js --out-file bundle.js",
     "production": "parcel build ./public/js/index.js --out-dir ./public/js --out-file bundle.js"
@@ -36,8 +35,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.25",
     "morgan": "^1.10.0",
+    "multer": "^1.4.2",
     "nodemailer": "^6.4.11",
     "pug": "^3.0.0",
+    "sharp": "^0.25.4",
     "slugify": "^1.4.5",
     "validator": "^13.1.1",
     "xss-clean": "^0.1.1"

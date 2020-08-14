@@ -1,3 +1,3 @@
-# Natours-API
+# My Tour Application
 
-Building an API with Node.js, Express, Postman and MongoDB
+Building an Application with Node.js, Express, Postman, MongoDB and Pug
