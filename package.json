@@ -17,9 +17,9 @@
   "author": "Tomiwa Obanla",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/obanlatomiwa/Natours-API/issues"
+    "url": "https://github.com/obanlatomiwa/My-Tour-Application/issues"
   },
-  "homepage": "https://github.com/obanlatomiwa/Natours-API#readme",
+  "homepage": "https://github.com/obanlatomiwa/My-Tour-Application#readme",
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "axios": "^0.19.2",
