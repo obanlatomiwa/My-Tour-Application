@@ -3,12 +3,15 @@ extends base
 include _mixins
 
 block append head
-    //- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *;**script-src 'self' http://onlineerp.solution.quebec 'unsafe-inline' 'unsafe-eval';** ">
-    //- <meta http-equiv="Content-Security-Policy" content="worker-src blob: ; child-src blob: ; img-src data: blob: 'self' ; script-src 'self' https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js 'unsafe-eval'; connect-src https://*.tiles.mapbox.com https://api.mapbox.com">
+    meta(http-equiv='Content-Security-Policy' content="")
+    //- meta(http-equiv='Content-Security-Policy' 'Content-Security-Policy-Report-Only', content=" default-src 'self'; style-src *; media-src *; script-src 'self' https://js.stripe.com/v3/ https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js 'unsafe-inline' 'unsafe-eval';")
+    //- <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
     //- script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl-csp.js')
-    script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js')
-    link(href='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css' rel='stylesheet')
-    //- type="application/json"
+    //- script(src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js")
+    script(src="https://js.stripe.com/v3/")
+    //- link(href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel='stylesheet')
+    
 
 block content
     section.section-header
@@ -80,4 +83,8 @@ block content
             .cta__content
                 h2.heading-secondary What are you waiting for?
                 p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
-                button.btn.btn--green.span-all-rows Book tour now!
+
+                if user
+                    button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
+                else
+                    a.btn.btn--green.span-all-rows(href='/login') Login in to book tour!

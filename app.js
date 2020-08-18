@@ -22,6 +22,7 @@ const tourRouter = require('./routes/tourRoute');
 const userRouter = require('./routes/userRoute');
 const reviewRouter = require('./routes/reviewRoute');
 const viewsRouter = require('./routes/viewsRoute');
+const bookingRouter = require('./routes/bookingRoute');
 
 // setting up express app
 const app = express();
@@ -85,10 +86,11 @@ app.use((req, res, next) => {
 });
 
 // mounting routers
+app.use('/', viewsRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
-app.use('/', viewsRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 // handling non-existing routes
 app.all('*', (req, res, next) => {
