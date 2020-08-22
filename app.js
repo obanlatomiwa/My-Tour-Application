@@ -13,7 +13,8 @@ const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
-const compression = require('compression');
+const cors = require('cors');
+// const compression = require('compression');
 
 // my modules
 const AppError = require('./utils/appError');
@@ -30,6 +31,10 @@ const app = express();
 // setting up pug in express
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+//  implementing cors
+app.use(cors());
+app.options('*', cors());
 
 // serving static files
 app.use(express.static(path.join(__dirname, 'public')));

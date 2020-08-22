@@ -12,3 +12,4 @@ export const bookTour = async (tourId) => {
   console.log(session);
   // creatte checkout form and charge client card
 };
+
