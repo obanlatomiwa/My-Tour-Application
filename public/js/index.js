@@ -1,10 +1,10 @@
 /* eslint-disable */
 
 import '@babel/polyfill';
-import displayMap from './mapBox';
+import { displayMap } from './mapBox';
 import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
-import { bookTour } from './stripe';
+// import { bookTour } from './stripe';
 
 //DOM
 const mapBox = document.getElementById('map');
@@ -68,5 +68,3 @@ if (bookingButton) {
     bookTour(tourId);
   });
 }
-
-

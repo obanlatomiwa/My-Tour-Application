@@ -14,7 +14,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-// const compression = require('compression');
+const compression = require('compression');
 
 // my modules
 const AppError = require('./utils/appError');
@@ -34,14 +34,14 @@ app.set('views', path.join(__dirname, 'views'));
 
 //  implementing cors
 app.use(cors());
-app.options('*', cors());
+//app.options('*', cors());
 
 // serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // GLOBAL MIDDLEWARE
 // set security http headers
-app.use(helmet());
+//app.use(helmet());
 
 // development logging
 if (process.env.NODE_ENV === 'development') {

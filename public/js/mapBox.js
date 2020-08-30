@@ -1,5 +1,5 @@
 /*eslint-disable */
-const mapboxgl = require('mapbox-gl');
+// const mapboxgl = require('mapbox-gl');
 
 export const displayMap = (locations) => {
   mapboxgl.accessToken =
@@ -8,9 +8,9 @@ export const displayMap = (locations) => {
     container: 'map',
     style: 'mapbox://styles/tomiwaobanla/ckdozfzxx060s1inwna2emn6j',
     scrollZoom: false,
-    //   center: [-118.113491, 34.111745],
-    //   zoom: 4,
-    //   interactive: false,
+      // center: [-118.113491, 34.111745],
+      // zoom: 4,
+      // interactive: false,
   });
 
   const bounds = new mapboxgl.LngLatBounds();

@@ -3,16 +3,10 @@ extends base
 include _mixins
 
 block append head
-    meta(http-equiv='Content-Security-Policy' content="")
-    //- meta(http-equiv='Content-Security-Policy' 'Content-Security-Policy-Report-Only', content=" default-src 'self'; style-src *; media-src *; script-src 'self' https://js.stripe.com/v3/ https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js 'unsafe-inline' 'unsafe-eval';")
-    //- <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
-    //- script(src='https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl-csp.js')
-    //- script(src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js")
+    script(src="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js")
     script(src="https://js.stripe.com/v3/")
-    //- link(href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel='stylesheet')
+    link(href="https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css" rel='stylesheet')
     
-
 block content
     section.section-header
         .header__hero
