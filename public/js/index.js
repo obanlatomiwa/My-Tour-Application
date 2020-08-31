@@ -4,7 +4,7 @@ import '@babel/polyfill';
 import { displayMap } from './mapBox';
 import { login, logout } from './login';
 import { updateSettings } from './updateSettings';
-// import { bookTour } from './stripe';
+import { bookTour } from './stripe';
 
 //DOM
 const mapBox = document.getElementById('map');
@@ -60,7 +60,6 @@ if (updateUserPasswordForm)
   });
 
 if (bookingButton) {
-  console.log('yes im here');
   bookingButton.addEventListener('click', (e) => {
     console.log('yes im here');
     e.target.textContent = 'Processing...';
