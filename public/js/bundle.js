@@ -8931,7 +8931,6 @@ var bookingButton = document.getElementById('book-tour');
 
 if (mapBox) {
   var locations = JSON.parse(mapBox.dataset.locations);
-  console.log(locations);
   (0, _mapBox.displayMap)(locations);
 }
 
@@ -8993,7 +8992,6 @@ if (updateUserPasswordForm) updateUserPasswordForm.addEventListener('submit', /*
 
 if (bookingButton) {
   bookingButton.addEventListener('click', function (e) {
-    console.log('yes im here');
     e.target.textContent = 'Processing...';
     var tourId = e.target.dataset.tourId;
     (0, _stripe.bookTour)(tourId);
