@@ -33,6 +33,12 @@ exports.getTour = catchAsyncError(async (req, res, next) => {
   });
 });
 
+exports.getSignupForm = (req, res) => {
+  res.status(200).render('signup', {
+    title: 'Register Here',
+  });
+};
+
 exports.getLoginForm = (req, res) => {
   res.status(200).render('login', {
     title: 'Log into your account',
@@ -41,7 +47,7 @@ exports.getLoginForm = (req, res) => {
 
 exports.getAccount = (req, res) => {
   res.status(200).render('account', {
-    title: 'Your account',
+    title: 'Your Account',
   });
 };
 
