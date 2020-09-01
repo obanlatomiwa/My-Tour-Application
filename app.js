@@ -36,7 +36,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 //  implementing cors
 app.use(cors());
-//app.options('*', cors());
+app.options('*', cors());
 
 // serving static files
 app.use(express.static(path.join(__dirname, 'public')));
