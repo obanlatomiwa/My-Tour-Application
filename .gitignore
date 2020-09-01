@@ -1,4 +1,4 @@
 node_modules
 *.env
 bine
-.cache
+.cache/
