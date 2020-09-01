@@ -1,3 +1,3 @@
 # My Tour Application
 
-Building an Application with Node.js, Express, Postman, MongoDB and Pug
+A Tour Booking Application built with 💓 using Node.js, Express, Postman, MongoDB and Pug.
